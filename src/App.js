@@ -257,186 +257,186 @@ export default function AttendanceTracker() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav style={{ backgroundColor: '#3B4953' }} className="text-white p-4 shadow-lg">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Calendar size={28} />
-            <h1 className="text-2xl font-bold">Attendance Tracker</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-semibold">{userName}</span>
+    <nav style={{ backgroundColor: '#3B4953' }} className="text-white p-4 shadow-lg">
+      <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <img src={require('./logo.png')} alt="Logo" style={{ width: '50px', height: '50px' }} />
+          <h1 className="text-2xl font-bold">Attendance Tracker</h1>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-semibold">{userName}</span>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg"
+          >
+            <LogOut size={18} /> Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="flex gap-2 mb-6">
+        <button
+          onClick={() => setCurrentPage('subjects')}
+          className={`px-6 py-2 rounded-lg font-semibold ${currentPage === 'subjects'
+            ? 'text-white'
+            : 'bg-white text-gray-800 hover:bg-gray-50'
+            }`}
+          style={currentPage === 'subjects' ? { backgroundColor: '#5A7863' } : {}}
+        >
+          Subjects
+        </button>
+        <button
+          onClick={() => setCurrentPage('calendar')}
+          className={`px-6 py-2 rounded-lg font-semibold ${currentPage === 'calendar'
+            ? 'text-white'
+            : 'bg-white text-gray-800 hover:bg-gray-50'
+            }`}
+          style={currentPage === 'calendar' ? { backgroundColor: '#5A7863' } : {}}
+        >
+          Calendar
+        </button>
+        <button
+          onClick={() => setCurrentPage('stats')}
+          className={`px-6 py-2 rounded-lg font-semibold ${currentPage === 'stats'
+            ? 'text-white'
+            : 'bg-white text-gray-800 hover:bg-gray-50'
+            }`}
+          style={currentPage === 'stats' ? { backgroundColor: '#5A7863' } : {}}
+        >
+          Statistics
+        </button>
+      </div>
+
+      {currentPage === 'subjects' && (
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">My Subjects</h2>
+          <div className="flex gap-2 mb-6">
+            <input
+              type="text"
+              placeholder="Enter subject name"
+              value={newSubject}
+              onChange={(e) => setNewSubject(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && addSubject()}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+            />
             <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg"
+              onClick={addSubject}
+              style={{ backgroundColor: '#90AB8B' }}
+              className="hover:opacity-90 text-white px-6 py-2 rounded-lg flex items-center gap-2"
             >
-              <LogOut size={18} /> Logout
+              <Plus size={20} /> Add Subject
             </button>
           </div>
-        </div>
-      </nav>
 
-      <div className="max-w-6xl mx-auto p-6">
-        <div className="flex gap-2 mb-6">
-          <button
-            onClick={() => setCurrentPage('subjects')}
-            className={`px-6 py-2 rounded-lg font-semibold ${currentPage === 'subjects'
-              ? 'text-white'
-              : 'bg-white text-gray-800 hover:bg-gray-50'
-              }`}
-            style={currentPage === 'subjects' ? { backgroundColor: '#5A7863' } : {}}
-          >
-            Subjects
-          </button>
-          <button
-            onClick={() => setCurrentPage('calendar')}
-            className={`px-6 py-2 rounded-lg font-semibold ${currentPage === 'calendar'
-              ? 'text-white'
-              : 'bg-white text-gray-800 hover:bg-gray-50'
-              }`}
-            style={currentPage === 'calendar' ? { backgroundColor: '#5A7863' } : {}}
-          >
-            Calendar
-          </button>
-          <button
-            onClick={() => setCurrentPage('stats')}
-            className={`px-6 py-2 rounded-lg font-semibold ${currentPage === 'stats'
-              ? 'text-white'
-              : 'bg-white text-gray-800 hover:bg-gray-50'
-              }`}
-            style={currentPage === 'stats' ? { backgroundColor: '#5A7863' } : {}}
-          >
-            Statistics
-          </button>
-        </div>
-
-        {currentPage === 'subjects' && (
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">My Subjects</h2>
-            <div className="flex gap-2 mb-6">
-              <input
-                type="text"
-                placeholder="Enter subject name"
-                value={newSubject}
-                onChange={(e) => setNewSubject(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && addSubject()}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
-              />
-              <button
-                onClick={addSubject}
-                style={{ backgroundColor: '#90AB8B' }}
-                className="hover:opacity-90 text-white px-6 py-2 rounded-lg flex items-center gap-2"
-              >
-                <Plus size={20} /> Add Subject
-              </button>
-            </div>
-
-            <div className="grid gap-4">
-              {subjects.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No subjects added yet</p>
-              ) : (
-                subjects.map((subject, idx) => (
-                  <div key={idx} className="flex justify-between items-center bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div>
-                      <p className="font-semibold text-gray-800">{subject}</p>
-                      <p className="text-sm text-gray-600">Hours attended: {getAttendanceCount(subject)}</p>
-                    </div>
-                    <button
-                      onClick={() => deleteSubject(idx)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
-                    >
-                      <Trash2 size={18} /> Delete
-                    </button>
+          <div className="grid gap-4">
+            {subjects.length === 0 ? (
+              <p className="text-gray-500 text-center py-8">No subjects added yet</p>
+            ) : (
+              subjects.map((subject, idx) => (
+                <div key={idx} className="flex justify-between items-center bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <div>
+                    <p className="font-semibold text-gray-800">{subject}</p>
+                    <p className="text-sm text-gray-600">Hours attended: {getAttendanceCount(subject)}</p>
                   </div>
-                ))
-              )}
-            </div>
-          </div>
-        )}
-
-        {currentPage === 'calendar' && (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-bold mb-6 text-gray-800">Add Attendance</h2>
-              <div className="grid md:grid-cols-5 gap-4">
-                <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" />
-                <select value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2">
-                  <option value="">Select Subject</option>
-                  {subjects.map((subj) => (<option key={subj} value={subj}>{subj}</option>))}
-                </select>
-                <input type="number" min="1" max="8" value={duration} onChange={(e) => setDuration(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" placeholder="Hours" />
-                <select value={status} onChange={(e) => setStatus(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2">
-                  <option value="attended">Attended</option>
-                  <option value="not-attended">Not Attended</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-                <button onClick={addAttendance} style={{ backgroundColor: '#90AB8B' }} className="hover:opacity-90 text-white px-6 py-2 rounded-lg font-semibold">Add</button>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
-                <div className="flex gap-2">
-                  <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))} style={{ backgroundColor: '#90AB8B' }} className="hover:opacity-90 text-white px-4 py-2 rounded-lg">← Prev</button>
-                  <button onClick={() => setCurrentMonth(new Date())} style={{ backgroundColor: '#5A7863' }} className="hover:opacity-90 text-white px-4 py-2 rounded-lg">Today</button>
-                  <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))} style={{ backgroundColor: '#90AB8B' }} className="hover:opacity-90 text-white px-4 py-2 rounded-lg">Next →</button>
+                  <button
+                    onClick={() => deleteSubject(idx)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                  >
+                    <Trash2 size={18} /> Delete
+                  </button>
                 </div>
-              </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
 
-              <div className="grid grid-cols-7 gap-0 border border-gray-300 rounded-lg overflow-hidden">
-                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (<div key={day} style={{ backgroundColor: '#5A7863' }} className="text-white font-bold text-center py-2">{day}</div>))}
-                {renderCalendar()}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-xl font-bold mb-4 text-gray-800">Recent Entries</h3>
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {Object.entries(attendance).sort((a, b) => new Date(b[1].date) - new Date(a[1].date)).slice(0, 10).map(([key, record]) => (
-                  <div key={key} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-                    <div className="text-sm">
-                      <span className="font-semibold">{record.subject}</span> - {record.date}
-                      <span className={`ml-2 px-2 py-1 rounded text-white text-xs ${record.status === 'attended' ? 'bg-green-500' : record.status === 'cancelled' ? 'bg-gray-500' : 'bg-red-500'}`}>{record.status} +{record.duration}h</span>
-                    </div>
-                    <button onClick={() => deleteAttendance(key)} className="text-red-500 hover:text-red-700"><Trash2 size={18} /></button>
-                  </div>
-                ))}
-              </div>
+      {currentPage === 'calendar' && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Add Attendance</h2>
+            <div className="grid md:grid-cols-5 gap-4">
+              <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" />
+              <select value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2">
+                <option value="">Select Subject</option>
+                {subjects.map((subj) => (<option key={subj} value={subj}>{subj}</option>))}
+              </select>
+              <input type="number" min="1" max="8" value={duration} onChange={(e) => setDuration(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" placeholder="Hours" />
+              <select value={status} onChange={(e) => setStatus(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2">
+                <option value="attended">Attended</option>
+                <option value="not-attended">Not Attended</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <button onClick={addAttendance} style={{ backgroundColor: '#90AB8B' }} className="hover:opacity-90 text-white px-6 py-2 rounded-lg font-semibold">Add</button>
             </div>
           </div>
-        )}
 
-        {currentPage === 'stats' && (
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Attendance Statistics</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {subjects.length === 0 ? (<p className="text-gray-500">Add subjects to see statistics</p>) : (subjects.map((subject) => {
-                const attended = Object.values(attendance).filter(r => r.subject === subject && r.status === 'attended').reduce((sum, r) => sum + r.duration, 0);
-                const notAttended = Object.values(attendance).filter(r => r.subject === subject && r.status === 'not-attended').reduce((sum, r) => sum + r.duration, 0);
-                const cancelled = Object.values(attendance).filter(r => r.subject === subject && r.status === 'cancelled').reduce((sum, r) => sum + r.duration, 0);
-                const total = attended + notAttended + cancelled;
-                const percentage = total > 0 ? ((attended / total) * 100).toFixed(1) : 0;
-                return (
-                  <div key={subject} className="border border-gray-300 rounded-lg p-4">
-                    <h3 className="font-bold text-lg mb-3 text-gray-800">{subject}</h3>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between"><span className="text-green-600 font-semibold">Attended:</span><span>{attended}h</span></div>
-                      <div className="flex justify-between"><span className="text-red-600 font-semibold">Not Attended:</span><span>{notAttended}h</span></div>
-                      <div className="flex justify-between"><span className="text-gray-600 font-semibold">Cancelled:</span><span>{cancelled}h</span></div>
-                      <div className="pt-2 border-t border-gray-300">
-                        <div className="flex justify-between font-bold">
-                          <span>Attendance %:</span>
-                          <span className={percentage >= 75 ? 'text-green-600' : 'text-red-600'}>{percentage}%</span>
-                        </div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
+              <div className="flex gap-2">
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))} style={{ backgroundColor: '#90AB8B' }} className="hover:opacity-90 text-white px-4 py-2 rounded-lg">← Prev</button>
+                <button onClick={() => setCurrentMonth(new Date())} style={{ backgroundColor: '#5A7863' }} className="hover:opacity-90 text-white px-4 py-2 rounded-lg">Today</button>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))} style={{ backgroundColor: '#90AB8B' }} className="hover:opacity-90 text-white px-4 py-2 rounded-lg">Next →</button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-7 gap-0 border border-gray-300 rounded-lg overflow-hidden">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (<div key={day} style={{ backgroundColor: '#5A7863' }} className="text-white font-bold text-center py-2">{day}</div>))}
+              {renderCalendar()}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h3 className="text-xl font-bold mb-4 text-gray-800">Recent Entries</h3>
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {Object.entries(attendance).sort((a, b) => new Date(b[1].date) - new Date(a[1].date)).slice(0, 10).map(([key, record]) => (
+                <div key={key} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                  <div className="text-sm">
+                    <span className="font-semibold">{record.subject}</span> - {record.date}
+                    <span className={`ml-2 px-2 py-1 rounded text-white text-xs ${record.status === 'attended' ? 'bg-green-500' : record.status === 'cancelled' ? 'bg-gray-500' : 'bg-red-500'}`}>{record.status} +{record.duration}h</span>
+                  </div>
+                  <button onClick={() => deleteAttendance(key)} className="text-red-500 hover:text-red-700"><Trash2 size={18} /></button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {currentPage === 'stats' && (
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">Attendance Statistics</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {subjects.length === 0 ? (<p className="text-gray-500">Add subjects to see statistics</p>) : (subjects.map((subject) => {
+              const attended = Object.values(attendance).filter(r => r.subject === subject && r.status === 'attended').reduce((sum, r) => sum + r.duration, 0);
+              const notAttended = Object.values(attendance).filter(r => r.subject === subject && r.status === 'not-attended').reduce((sum, r) => sum + r.duration, 0);
+              const cancelled = Object.values(attendance).filter(r => r.subject === subject && r.status === 'cancelled').reduce((sum, r) => sum + r.duration, 0);
+              const total = attended + notAttended + cancelled;
+              const percentage = total > 0 ? ((attended / total) * 100).toFixed(1) : 0;
+              return (
+                <div key={subject} className="border border-gray-300 rounded-lg p-4">
+                  <h3 className="font-bold text-lg mb-3 text-gray-800">{subject}</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-green-600 font-semibold">Attended:</span><span>{attended}h</span></div>
+                    <div className="flex justify-between"><span className="text-red-600 font-semibold">Not Attended:</span><span>{notAttended}h</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600 font-semibold">Cancelled:</span><span>{cancelled}h</span></div>
+                    <div className="pt-2 border-t border-gray-300">
+                      <div className="flex justify-between font-bold">
+                        <span>Attendance %:</span>
+                        <span className={percentage >= 75 ? 'text-green-600' : 'text-red-600'}>{percentage}%</span>
                       </div>
                     </div>
                   </div>
-                );
-              }))}
-            </div>
+                </div>
+              );
+            }))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
+    </div >
   );
 }
